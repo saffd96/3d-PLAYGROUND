@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Player : MonoBehaviour
+public class Player : SingletonMonoBehaviour<Player>
 {
     [SerializeField] private GameObject deathVfx;
     [SerializeField] private UnityEvent onDeath;

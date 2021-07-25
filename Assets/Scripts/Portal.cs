@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Portal : MonoBehaviour
 {
@@ -6,7 +7,12 @@ public class Portal : MonoBehaviour
     {
         if (GameManager.Instance.IsCoinsEnded() && other.gameObject.CompareTag("Player"))
         {
-            //load Next Level
+            if (SceneManager.GetActiveScene().buildIndex + 1 < SceneManager.sceneCountInBuildSettings)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+                Debug.Log($"Load Scene {SceneManager.GetActiveScene().buildIndex + 1}");
+            }
         }
     }
 }

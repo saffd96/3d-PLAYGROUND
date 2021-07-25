@@ -23,7 +23,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         }
     }
 
-    public void FindAndSetUnactivePortal()
+    public void FindAndSetUnactivePortal() //чтобы нашел портал на новом уровне
     {
         portal = FindObjectOfType<Portal>();
         portal.gameObject.SetActive(false);
