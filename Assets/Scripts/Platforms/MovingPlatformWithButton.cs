@@ -30,11 +30,11 @@ public class MovingPlatformWithButton : AnimatedElement
         Sequence sequence = DOTween.Sequence().SetUpdate(UpdateType.Fixed);
         sequence.AppendInterval(StartPositionDelay);
         sequence.Append(transform.DOLocalMove(EndPosition, ToEndPositionMoveTime));
-        isEnd = true;
+        IsEnd = true;
         sequence.AppendCallback(PlaySound);
         sequence.AppendInterval(EndPositionDelay);
         sequence.Append(transform.DOLocalMove(StartPosition, ToStartPositionMoveTime));
-        isEnd = false;
+        IsEnd = false;
         sequence.AppendCallback(PlaySound);
         sequence.SetLoops(Loops);
     }

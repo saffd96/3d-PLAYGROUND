@@ -26,7 +26,7 @@ public abstract class AnimatedElement : Platform
     [SerializeField] private AudioClip startSound;
     [SerializeField] private AudioClip endSound;
 
-    protected bool isEnd;
+    protected bool IsEnd;
     private bool isAnimationPlayed;
 
     protected virtual void PLayAnimation()
@@ -34,17 +34,17 @@ public abstract class AnimatedElement : Platform
         Sequence sequence = DOTween.Sequence().SetUpdate(UpdateType.Fixed);
         sequence.AppendInterval(StartPositionDelay);
         sequence.Append(transform.DOLocalMove(EndPosition, ToEndPositionMoveTime));
-        isEnd = true;
+        IsEnd = true;
         sequence.AppendCallback(PlaySound);
 
-        if (ToStartPositionMoveTime == -1)
+        if (ToStartPositionMoveTime == -1f)
         {
             return;
         }
 
         sequence.AppendInterval(EndPositionDelay);
         sequence.Append(transform.DOLocalMove(StartPosition, ToStartPositionMoveTime));
-        isEnd = false;
+        IsEnd = false;
         sequence.AppendCallback(PlaySound);
         sequence.SetLoops(Loops);
     }
@@ -56,7 +56,7 @@ public abstract class AnimatedElement : Platform
 
     protected void PlaySound()
     {
-        if (isEnd)
+        if (IsEnd)
         {
             //play end sound
         }

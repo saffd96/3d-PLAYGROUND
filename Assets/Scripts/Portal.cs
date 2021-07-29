@@ -13,6 +13,10 @@ public class Portal : MonoBehaviour
 
                 Debug.Log($"Load Scene {SceneManager.GetActiveScene().buildIndex + 1}");
             }
+            else
+            {
+                Debug.Log($"There is no more scenes");
+            }
         }
     }
 }

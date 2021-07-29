@@ -25,14 +25,13 @@ public class MovingPlatformButton : AnimatedElement
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            PLayAnimation();
-            StartCoroutine(Delay());
-        }
+        if (!IsPlayer(other)) return;
+
+        PLayAnimation();
+        StartCoroutine(Delay());
     }
 
-    IEnumerator Delay()
+    private IEnumerator Delay()
     {
         yield return new WaitForSeconds(ToEndPositionMoveTime);
 
