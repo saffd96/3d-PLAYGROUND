@@ -1,5 +1,4 @@
 using DG.Tweening;
-using TMPro;
 using UnityEngine;
 
 public class BigBlock : AnimatedElement
@@ -24,10 +23,10 @@ public class BigBlock : AnimatedElement
     protected override void PLayAnimation()
     {
         Sequence sequence = DOTween.Sequence();
-        sequence.AppendInterval(StartPositionDelay);
         sequence.Append(transform.DOLocalMove(EndPosition, ToEndPositionMoveTime).SetEase(ToEndPointEase));
         sequence.AppendInterval(EndPositionDelay);
         sequence.Append(transform.DOLocalMove(StartPosition, ToStartPositionMoveTime).SetEase(ToStartPointEase));
+        StartCoroutine(PlaySoundWithDelay(EndPositionDelay+SoundDelay));
         sequence.SetLoops(Loops);
     }
 }

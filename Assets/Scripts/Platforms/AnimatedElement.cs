@@ -1,7 +1,8 @@
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
-public abstract class AnimatedElement : Platform
+public abstract class AnimatedElement : MonoBehaviour
 {
     [Header("Moving Settings")]
     [SerializeField] protected Vector3 StartPosition;
@@ -23,8 +24,8 @@ public abstract class AnimatedElement : Platform
     [SerializeField] protected float ToEndPositionMoveTime;
 
     [Header("Sounds")]
-    [SerializeField] private AudioClip startSound;
-    [SerializeField] private AudioClip endSound;
+    [SerializeField] private SfxType soundEffect;
+    [SerializeField] protected float SoundDelay;
 
     protected bool IsEnd;
     private bool isAnimationPlayed;
@@ -35,17 +36,13 @@ public abstract class AnimatedElement : Platform
         sequence.AppendInterval(StartPositionDelay);
         sequence.Append(transform.DOLocalMove(EndPosition, ToEndPositionMoveTime));
         IsEnd = true;
-        sequence.AppendCallback(PlaySound);
-
         if (ToStartPositionMoveTime == -1f)
         {
             return;
         }
-
         sequence.AppendInterval(EndPositionDelay);
         sequence.Append(transform.DOLocalMove(StartPosition, ToStartPositionMoveTime));
         IsEnd = false;
-        sequence.AppendCallback(PlaySound);
         sequence.SetLoops(Loops);
     }
 
@@ -56,14 +53,7 @@ public abstract class AnimatedElement : Platform
 
     protected void PlaySound()
     {
-        if (IsEnd)
-        {
-            //play end sound
-        }
-        else
-        {
-            //play start sound
-        }
+        AudioManager.Instance.PLaySfx(soundEffect);
     }
 
     private void ChangeToggle()
@@ -86,4 +76,11 @@ public abstract class AnimatedElement : Platform
             PLayAnimation();
         }
     }
+
+    protected IEnumerator PlaySoundWithDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        PlaySound();
+    }
+
 }

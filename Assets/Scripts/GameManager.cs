@@ -1,36 +1,64 @@
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
-    [SerializeField] private Portal portal;
+    [SerializeField] private EndingPortal endingPortal;
 
-    [SerializeField] public int maxCoins = 0;
-    [ReadOnly] [SerializeField] private int counter;
 
-    private new void Awake()
+    [SerializeField] private UiManager uiManager;
+   
+    [ReadOnly] [SerializeField] private int coinCounter;
+    public int MAXCoins = 0;
+
+    public bool IsPaused { get; private set; }
+
+    private void Start()
     {
-        base.Awake();
-        FindAndSetUnactivePortal();
-        counter = FindObjectsOfType<Coin>().Length;
+        ResetGame();
     }
 
     private void Update()
     {
         if (IsCoinsEnded())
         {
-            portal.gameObject.SetActive(true);
+            endingPortal.gameObject.SetActive(true);
         }
-    }
 
-    public void FindAndSetUnactivePortal() //чтобы нашел портал на новом уровне
-    {
-        portal = FindObjectOfType<Portal>();
-        portal.gameObject.SetActive(false);
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseToggle();
+        }
     }
 
     public bool IsCoinsEnded()
     {
-        return maxCoins == counter;
+        return MAXCoins == coinCounter;
+    }
+
+    public void PauseToggle()
+    {
+        IsPaused = !IsPaused;
+        uiManager.PauseToggle(IsPaused);
+
+        Time.timeScale = IsPaused ? 0f : 1f;
+    }
+
+    private void ResetGame()
+    {
+        endingPortal = FindObjectOfType<EndingPortal>();
+        endingPortal.gameObject.SetActive(false);        
+        
+        coinCounter = FindObjectsOfType<Coin>().Length;
+        
+        IsPaused = false;
+        uiManager.PauseToggle(IsPaused);
+        Time.timeScale = 1f;
+    }
+
+    public void ReloadGame()
+    {
+        SceneManager.LoadScene(0);
     }
 }

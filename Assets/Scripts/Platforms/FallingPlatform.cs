@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public class FallingPlatform : AnimatedElement
     protected override void PLayAnimation()
     {
         transform.DOShakePosition(StartPositionDelay, Vector3.one / 10, 10, 45f, false, false);
+        StartCoroutine(PlaySoundWithDelay(StartPositionDelay + SoundDelay));
         base.PLayAnimation();
     }
 

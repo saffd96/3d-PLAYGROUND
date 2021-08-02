@@ -6,8 +6,8 @@ public class Coin : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            //play sound;
-            GameManager.Instance.maxCoins++;
+            AudioManager.Instance.PLaySfx(SfxType.Coin);
+            GameManager.Instance.MAXCoins++;
             Destroy(gameObject);
         }
     }

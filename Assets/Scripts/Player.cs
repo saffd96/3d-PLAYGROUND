@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Player : SingletonMonoBehaviour<Player>
+public class Player : MonoBehaviour
 {
     [SerializeField] private GameObject deathVfx;
     [SerializeField] private UnityEvent onDeath;
@@ -17,7 +17,7 @@ public class Player : SingletonMonoBehaviour<Player>
                 Instantiate(deathVfx, transform.position, Quaternion.identity);
             }
 
-            //play sound;
+            AudioManager.Instance.PLaySfx(SfxType.Death);
             StartCoroutine(Delay());
         }
     }

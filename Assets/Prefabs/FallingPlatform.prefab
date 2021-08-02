@@ -392,8 +392,7 @@ MonoBehaviour:
   EndPositionDelay: 0
   ToStartPositionMoveTime: 1
   ToEndPositionMoveTime: 1
-  startSound: {fileID: 0}
-  endSound: {fileID: 0}
+  soundEffect: 6
 --- !u!65 &5115387511947291358
 BoxCollider:
   m_ObjectHideFlags: 0

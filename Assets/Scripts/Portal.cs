@@ -1,22 +1,39 @@
+using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class Portal : MonoBehaviour
 {
+    [SerializeField] private Transform enter;
+    [SerializeField] private Transform exit;
+    
+    [SerializeField] private GameObject exitVfx;
+    [Space]
+    [SerializeField] private UnityEvent onEnter;
+
+    private Vector3 exitPosition;
+    private void Awake()
+    {
+        exitPosition = exit.position;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawSphere(enter.position, 0.25f);
+        Gizmos.DrawSphere(exit.position, 0.25f);
+        Gizmos.DrawLine(enter.position, exit.position);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (GameManager.Instance.IsCoinsEnded() && other.gameObject.CompareTag("Player"))
-        {
-            if (SceneManager.GetActiveScene().buildIndex + 1 < SceneManager.sceneCountInBuildSettings)
-            {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        if (!other.gameObject.CompareTag("Player")) return;
 
-                Debug.Log($"Load Scene {SceneManager.GetActiveScene().buildIndex + 1}");
-            }
-            else
-            {
-                Debug.Log($"There is no more scenes");
-            }
+        if (exitVfx != null)
+        {
+            Instantiate(exitVfx, new Vector3(exitPosition.x,exitPosition.y+2,exitPosition.z), Quaternion.identity);
         }
+
+        onEnter?.Invoke();
     }
 }

@@ -55,8 +55,8 @@ MonoBehaviour:
   EndPositionDelay: 0
   ToStartPositionMoveTime: 0
   ToEndPositionMoveTime: 0
-  startSound: {fileID: 0}
-  endSound: {fileID: 0}
+  soundEffect: 4
+  SoundDelay: 1.45
 --- !u!1 &1667173807656703549
 GameObject:
   m_ObjectHideFlags: 0

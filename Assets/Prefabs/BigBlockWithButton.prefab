@@ -130,6 +130,14 @@ PrefabInstance:
       propertyPath: onCollision.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2349472104928564695}
+    - target: {fileID: 2328230452390217049, guid: 1794054605af663469806813153ed66a, type: 3}
+      propertyPath: onCollision.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 2328230452390217049, guid: 1794054605af663469806813153ed66a, type: 3}
+      propertyPath: onCollision.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AnimatedElement, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 2328230452390217051, guid: 1794054605af663469806813153ed66a, type: 3}
       propertyPath: m_Icon
       value: 

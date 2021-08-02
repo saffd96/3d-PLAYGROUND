@@ -27,14 +27,8 @@ public class Button : AnimatedElement
     {
         if (!IsPlayer(other)) return;
 
+        StartCoroutine(PlaySoundWithDelay(SoundDelay));
         PLayAnimation();
-        StartCoroutine(Delay());
-    }
-
-    private IEnumerator Delay()
-    {
-        yield return new WaitForSeconds(ToEndPositionMoveTime);
-
         onCollision?.Invoke();
     }
 }

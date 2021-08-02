@@ -1676,8 +1676,7 @@ MonoBehaviour:
   EndPositionDelay: 0
   ToStartPositionMoveTime: 0.25
   ToEndPositionMoveTime: 0.25
-  startSound: {fileID: 0}
-  endSound: {fileID: 0}
+  soundEffect: 5
   onCollision:
     m_PersistentCalls:
       m_Calls:

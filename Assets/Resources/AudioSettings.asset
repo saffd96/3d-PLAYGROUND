@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d34c652b650f48959b982bb0df934a49, type: 3}
+  m_Name: AudioSettings
+  m_EditorClassIdentifier: 
+  sfx:
+  - name: None
+    Clip: {fileID: 0}
+    SfxType: 0
+  - name: Death
+    Clip: {fileID: 8300000, guid: bc378a3e2a491e14b8e83348fcf5c374, type: 3}
+    SfxType: 1
+  - name: Jump
+    Clip: {fileID: 8300000, guid: f86be0d1927341949a56ef3fcda705d3, type: 3}
+    SfxType: 2
+  - name: Coin
+    Clip: {fileID: 8300000, guid: 9da95980188d9d043bf771b67185b832, type: 3}
+    SfxType: 3
+  - name: BigPlatform
+    Clip: {fileID: 8300000, guid: 8d9d9ed13653c1b4f947e71212051af4, type: 3}
+    SfxType: 4
+  - name: Button
+    Clip: {fileID: 8300000, guid: 5a1989e85a897b34880a2d6c036f5896, type: 3}
+    SfxType: 5
+  - name: FallingPlatform
+    Clip: {fileID: 8300000, guid: 9f2ce84309015de459c0973df7af268a, type: 3}
+    SfxType: 6
