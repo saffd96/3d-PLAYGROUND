@@ -1,24 +1,17 @@
-using System;
 using UnityEngine;
-using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 public class AudioManager : SingletonMonoBehaviour<AudioManager>
 {
     [SerializeField] private AudioSource bgmSource;
     [SerializeField] private AudioSource sfxSource;
-    
+
     [SerializeField] private AudioSettings audioSettings;
-
-    [SerializeField] private Slider musicSlider;
-    [SerializeField] private Slider sfxSlider;
-
-    [SerializeField] private Text musicText;
-    [SerializeField] private Text sfxText;
-
-    [SerializeField] private AudioClip[] musics;
     
-    
+    private AudioClip currentClip;
+
+    public float MusicVolume => bgmSource.volume;
+    public float SfxVolume => sfxSource.volume;
+
     private void Start()
     {
         LoadValues();
@@ -27,16 +20,16 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
 
     private void Update()
     {
-        if (!bgmSource.isPlaying)
-        {
-            bgmSource.clip = GetRandomMusic();
-            bgmSource.Play();
-        }
-    }
+        if (bgmSource.isPlaying) return;
 
-    private AudioClip GetRandomMusic()
-    {
-        return musics[Random.Range(0, musics.Length)];
+        do
+        {
+            currentClip = audioSettings.GetRandomMusic();
+        }
+        while (currentClip == bgmSource.clip);
+
+        bgmSource.clip = currentClip;
+        bgmSource.Play();
     }
 
     public void PLaySfx(SfxType sfxType, Transform transform = null)
@@ -48,41 +41,25 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
             sfxSource.PlayOneShot(audioClip);
         }
     }
-    
-    
 
-    public void MusicSlider(float volume)
+    public void SetMusicVolume(float volume)
     {
-        musicText.text = volume.ToString("0.0");
         bgmSource.volume = volume;
+        PlayerPrefs.SetFloat(PrefsConstants.MusicPrefsKey, volume);
     }
 
-    public void SfxSlider(float volume)
+    public void SetSfxVolume(float volume)
     {
-        sfxText.text = volume.ToString("0.0");
         sfxSource.volume = volume;
+        PlayerPrefs.SetFloat(PrefsConstants.SfxPrefsKey, volume);
     }
-
-    public void SaveVolumeSettings()
-    {
-        var musicValue = musicSlider.value;
-        var sfxValue = sfxSlider.value;
-
-        PlayerPrefs.SetFloat("MusicValue", musicValue);
-        PlayerPrefs.SetFloat("SfxValue", sfxValue);
-
-        LoadValues();
-    }
-
+    
     private void LoadValues()
     {
-        var musicValue = PlayerPrefs.GetFloat("MusicValue");
-        musicSlider.value = musicValue;
-
-        var sfxValue = PlayerPrefs.GetFloat("SfxValue");
-        sfxSlider.value = sfxValue;
-
+        var musicValue = PlayerPrefs.GetFloat(PrefsConstants.MusicPrefsKey);
         bgmSource.volume = musicValue;
+
+        var sfxValue = PlayerPrefs.GetFloat(PrefsConstants.SfxPrefsKey);
         sfxSource.volume = sfxValue;
     }
 

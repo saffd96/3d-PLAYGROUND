@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 [CreateAssetMenu(fileName = nameof(AudioSettings), menuName = "Audio/AudioSettings")]
 public class AudioSettings : ScriptableObject
@@ -24,6 +25,8 @@ public class AudioSettings : ScriptableObject
 
     [SerializeField] private SfxInfo[] sfx;
 
+    [SerializeField] private AudioClip[] musics;
+
     private readonly Dictionary<SfxType, SfxInfo> sfxMap = new Dictionary<SfxType, SfxInfo>();
 
     private void OnEnable()
@@ -45,6 +48,11 @@ public class AudioSettings : ScriptableObject
     {
         return sfxMap.ContainsKey(sfxType) ? sfxMap[sfxType].Clip : null;
     }
+    
+    public AudioClip GetRandomMusic()
+    {
+        return musics[Random.Range(0, musics.Length)];
+    }
 
     private void FillMap()
     {
@@ -58,7 +66,7 @@ public class AudioSettings : ScriptableObject
 
             if (!sfxMap.ContainsKey(type))
             {
-                sfxMap.Add(type,sfxInfo);
+                sfxMap.Add(type, sfxInfo);
             }
             else
             {

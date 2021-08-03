@@ -34,3 +34,11 @@ MonoBehaviour:
   - name: FallingPlatform
     Clip: {fileID: 8300000, guid: 9f2ce84309015de459c0973df7af268a, type: 3}
     SfxType: 6
+  musics:
+  - {fileID: 8300000, guid: e8e55044715c385489f25922e026b9b9, type: 3}
+  - {fileID: 8300000, guid: cc20f8bf430ebd949806311101240b89, type: 3}
+  - {fileID: 8300000, guid: fe542f12fb6e7de408f5e1c0fafc8372, type: 3}
+  - {fileID: 8300000, guid: c045f2615f8411a4c9d6f625320fa0c3, type: 3}
+  - {fileID: 8300000, guid: a34e58c33c155be43baad91800975518, type: 3}
+  - {fileID: 8300000, guid: 9d787aa688eeb02489140df6b80cb36d, type: 3}
+  - {fileID: 8300000, guid: d367b97b128b7bc4a9ebd6a0ab0ae013, type: 3}

@@ -33,7 +33,8 @@ public class Portal : MonoBehaviour
         {
             Instantiate(exitVfx, new Vector3(exitPosition.x,exitPosition.y+2,exitPosition.z), Quaternion.identity);
         }
-
-        onEnter?.Invoke();
+        
+        var movement = other.gameObject.GetComponent<PlayerMovement>();
+        movement.MoveToPosition(exit);
     }
 }

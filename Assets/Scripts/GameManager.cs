@@ -40,9 +40,9 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public void PauseToggle()
     {
         IsPaused = !IsPaused;
+        Time.timeScale = IsPaused ? 0f : 1f;
         uiManager.PauseToggle(IsPaused);
 
-        Time.timeScale = IsPaused ? 0f : 1f;
     }
 
     private void ResetGame()
@@ -53,7 +53,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         coinCounter = FindObjectsOfType<Coin>().Length;
         
         IsPaused = false;
-        uiManager.PauseToggle(IsPaused);
         Time.timeScale = 1f;
     }
 

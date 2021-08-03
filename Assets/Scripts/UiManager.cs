@@ -1,11 +1,19 @@
+using System;
 using UnityEngine;
 
 public class UiManager : MonoBehaviour
 {
-    [SerializeField] private GameObject pauseMenu;
-    
+    [SerializeField] private PauseView pauseMenu;
+
     public void PauseToggle(bool isActive)
     {
-        pauseMenu.SetActive(isActive);
+        if (isActive)
+        {
+            pauseMenu.Show();
+        }
+        else
+        {
+            pauseMenu.Hide();
+        }
     }
 }
