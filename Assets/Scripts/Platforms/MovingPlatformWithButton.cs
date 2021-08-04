@@ -8,8 +8,8 @@ public class MovingPlatformWithButton : AnimatedElement
 
     private void OnValidate()
     {
-        inverseStartPos = transform.TransformPoint(StartPosition);
-        inverseEndPos = transform.TransformPoint(EndPosition);
+        inverseStartPos = transform.TransformPoint(startPosition);
+        inverseEndPos = transform.TransformPoint(endPosition);
     }
 
     private void OnDrawGizmosSelected()
@@ -22,20 +22,15 @@ public class MovingPlatformWithButton : AnimatedElement
 
     public void MovePlatform()
     {
-        PLayAnimation();
+        PlayAnimation();
     }
 
-    protected override void PLayAnimation()
+    public override void PlayAnimation()
     {
         Sequence sequence = DOTween.Sequence().SetUpdate(UpdateType.Fixed);
-        sequence.AppendInterval(StartPositionDelay);
-        sequence.Append(transform.DOLocalMove(EndPosition, ToEndPositionMoveTime));
-        IsEnd = true;
+        sequence.AppendInterval(startPositionDelay);
+        sequence.Append(transform.DOLocalMove(endPosition, toEndPositionMoveTime));
         sequence.AppendCallback(PlaySound);
-        sequence.AppendInterval(EndPositionDelay);
-        sequence.Append(transform.DOLocalMove(StartPosition, ToStartPositionMoveTime));
-        IsEnd = false;
-        sequence.AppendCallback(PlaySound);
-        sequence.SetLoops(Loops);
+        sequence.SetLoops(loops);
     }
 }

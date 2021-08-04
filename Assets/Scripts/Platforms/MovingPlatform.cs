@@ -1,10 +1,22 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class MovingPlatform : AnimatedElement
 {
     private void Start()
     {
-        PLayAnimation();
+        PlayAnimation();
+    }
+
+    public override void PlayAnimation()
+    {
+        var sequence = DOTween.Sequence().SetUpdate(UpdateType.Fixed);
+
+        sequence.AppendInterval(startPositionDelay);
+        sequence.Append(transform.DOLocalMove(endPosition, toEndPositionMoveTime));
+        sequence.AppendInterval(endPositionDelay);
+        sequence.Append(transform.DOLocalMove(startPosition, toStartPositionMoveTime));
+        sequence.SetLoops(loops);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -26,8 +38,8 @@ public class MovingPlatform : AnimatedElement
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(StartPosition, 0.25f);
-        Gizmos.DrawSphere(EndPosition, 0.25f);
-        Gizmos.DrawLine(StartPosition, EndPosition);
+        Gizmos.DrawSphere(startPosition, 0.25f);
+        Gizmos.DrawSphere(endPosition, 0.25f);
+        Gizmos.DrawLine(startPosition, endPosition);
     }
 }

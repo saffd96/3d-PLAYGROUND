@@ -45,18 +45,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2925d055b206c544886f25db0015c87c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartPosition: {x: 0, y: 0, z: 0}
-  EndPosition: {x: 0, y: 0, z: 0}
-  ToStartPointEase: 1
-  ToEndPointEase: 1
-  Loops: 1
-  isNeedToWaitEnd: 0
-  StartPositionDelay: 0
-  EndPositionDelay: 0
-  ToStartPositionMoveTime: 0
-  ToEndPositionMoveTime: 0
+  startPosition: {x: 0, y: 0, z: 0}
+  endPosition: {x: 0, y: 6, z: 0}
+  toStartPointEase: 5
+  toEndPointEase: 30
+  loops: 1
+  startPositionDelay: 0
+  endPositionDelay: 2
+  toStartPositionMoveTime: 1
+  toEndPositionMoveTime: 1
   soundEffect: 4
-  SoundDelay: 1.45
+  soundDelay: 0
+  button: {fileID: 0}
+  isUpAnimationComplete: 0
 --- !u!1 &1667173807656703549
 GameObject:
   m_ObjectHideFlags: 0

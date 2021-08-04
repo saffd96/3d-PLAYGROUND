@@ -1,4 +1,4 @@
-using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,8 +11,17 @@ public class MovingPlatformButton : AnimatedElement
 
     private void OnValidate()
     {
-        inverseStartPos = transform.TransformPoint(StartPosition);
-        inverseEndPos = transform.TransformPoint(EndPosition);
+        inverseStartPos = transform.TransformPoint(startPosition);
+        inverseEndPos = transform.TransformPoint(endPosition);
+    }
+
+    public override void PlayAnimation()
+    {
+        var sequence = DOTween.Sequence().SetUpdate(UpdateType.Fixed);
+
+        sequence.AppendInterval(startPositionDelay);
+        sequence.Append(transform.DOLocalMove(endPosition, toEndPositionMoveTime));
+        sequence.SetLoops(loops);
     }
 
     private void OnDrawGizmosSelected()
@@ -27,8 +36,8 @@ public class MovingPlatformButton : AnimatedElement
     {
         if (!IsPlayer(other)) return;
 
-        StartCoroutine(PlaySoundWithDelay(SoundDelay));
-        PLayAnimation();
+        StartCoroutine(PlaySoundWithDelay(soundDelay));
+        PlayAnimation();
         onCollision?.Invoke();
     }
 }

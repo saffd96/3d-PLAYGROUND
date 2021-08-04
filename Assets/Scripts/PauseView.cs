@@ -7,6 +7,7 @@ public class PauseView : MonoBehaviour
     [Header("Components")]
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private float fadeDuration;
+    [SerializeField] private Button[] buttons;
 
     [Header("Settings")]
     [SerializeField] private float volumeMultiplier = 100f;
@@ -41,14 +42,30 @@ public class PauseView : MonoBehaviour
         SetVolume();
 
         gameObject.SetActive(true);
+        
+        foreach (var button in buttons)
+        {
+            if (!button.enabled)
+            {
+                button.enabled = true;
+            }
+        }
+        
         tweenAnimation?.Kill();
         canvasGroup.DOFade(1, fadeDuration).SetUpdate(true);
     }
 
     public void Hide()
     {
+        foreach (var button in buttons)
+        {
+            if (button.enabled)
+            {
+                button.enabled = false;
+            }
+        }
         tweenAnimation?.Kill();
-        canvasGroup.DOFade(0, fadeDuration).SetUpdate(true).OnComplete(() => gameObject.SetActive(true));
+        canvasGroup.DOFade(0, fadeDuration).SetUpdate(true).OnComplete(() => gameObject.SetActive(false));
     }
 
     private float GetSfxVolume()

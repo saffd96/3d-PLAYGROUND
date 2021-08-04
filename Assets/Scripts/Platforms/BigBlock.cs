@@ -3,13 +3,17 @@ using UnityEngine;
 
 public class BigBlock : AnimatedElement
 {
+    [SerializeField] private AnimatedButton button;
+
     private Vector3 inverseStartPos;
     private Vector3 inverseEndPos;
 
+    internal bool isUpAnimationComplete;
+
     private void OnValidate()
     {
-        inverseStartPos = transform.TransformPoint(StartPosition);
-        inverseEndPos = transform.TransformPoint(EndPosition);
+        inverseStartPos = transform.TransformPoint(startPosition);
+        inverseEndPos = transform.TransformPoint(endPosition);
     }
 
     private void OnDrawGizmosSelected()
@@ -20,13 +24,39 @@ public class BigBlock : AnimatedElement
         Gizmos.DrawLine(inverseStartPos, inverseEndPos);
     }
 
-    protected override void PLayAnimation()
+    public override void PlayAnimation()
     {
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(transform.DOLocalMove(EndPosition, ToEndPositionMoveTime).SetEase(ToEndPointEase));
-        sequence.AppendInterval(EndPositionDelay);
-        sequence.Append(transform.DOLocalMove(StartPosition, ToStartPositionMoveTime).SetEase(ToStartPointEase));
-        StartCoroutine(PlaySoundWithDelay(EndPositionDelay+SoundDelay));
-        sequence.SetLoops(Loops);
+        sequence.AppendInterval(startPositionDelay);
+        sequence.Append(transform.DOLocalMove(endPosition, toEndPositionMoveTime).SetEase(toEndPointEase));
+        sequence.AppendCallback(IsUpAnimationComplete);
+        sequence.AppendCallback(IsPlayerOnButton);
+    }
+
+    public override void PlayReverseAnimation()
+    {
+        Sequence sequence = DOTween.Sequence();
+        sequence.AppendInterval(endPositionDelay);
+        sequence.Append(transform.DOLocalMove(startPosition, toStartPositionMoveTime).SetEase(toStartPointEase));
+        sequence.AppendCallback(IsUpAnimationComplete);
+        StartCoroutine(PlaySoundWithDelay(endPositionDelay + soundDelay));
+        sequence.SetLoops(loops);
+    }
+
+    private void IsPlayerOnButton()
+    {
+        if (!button.isPlayerOnButton)
+        {
+            PlayReverseAnimation();
+        }
+        else
+        {
+            button.isPlayerOnButton = false;
+        }
+    }
+
+    private void IsUpAnimationComplete()
+    {
+        isUpAnimationComplete = !isUpAnimationComplete;
     }
 }

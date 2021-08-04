@@ -5,45 +5,41 @@ using UnityEngine;
 public abstract class AnimatedElement : MonoBehaviour
 {
     [Header("Moving Settings")]
-    [SerializeField] protected Vector3 StartPosition;
-    [SerializeField] protected Vector3 EndPosition;
-    [SerializeField] protected Ease ToStartPointEase = Ease.Linear;
-    [SerializeField] protected Ease ToEndPointEase = Ease.Linear;
+    [SerializeField] protected Vector3 startPosition;
+    [SerializeField] protected Vector3 endPosition;
+    [SerializeField] protected Ease toStartPointEase = Ease.Linear;
+    [SerializeField] protected Ease toEndPointEase = Ease.Linear;
 
     [Tooltip("Set -1 to make it infinite")]
-    [SerializeField] protected int Loops = 1;
-
-    [Tooltip("Set active if need to wait until animation played")]
-    [SerializeField] private bool isNeedToWaitEnd;
+    [SerializeField] protected int loops = 1;
 
     [Header("Timing")]
-    [SerializeField] protected float StartPositionDelay;
-    [SerializeField] protected float EndPositionDelay;
+    [SerializeField] protected float startPositionDelay;
+    [SerializeField] protected float endPositionDelay;
+
     [Tooltip("Set -1 to cancel Animation")]
-    [SerializeField] protected float ToStartPositionMoveTime;
-    [SerializeField] protected float ToEndPositionMoveTime;
+    [SerializeField] protected float toStartPositionMoveTime;
+    [SerializeField] protected float toEndPositionMoveTime;
 
     [Header("Sounds")]
     [SerializeField] private SfxType soundEffect;
-    [SerializeField] protected float SoundDelay;
+    [SerializeField] protected float soundDelay;
 
-    protected bool IsEnd;
-    private bool isAnimationPlayed;
+    protected Tween baseSequence;
 
-    protected virtual void PLayAnimation()
+    public virtual void PlayAnimation()
     {
-        Sequence sequence = DOTween.Sequence().SetUpdate(UpdateType.Fixed);
-        sequence.AppendInterval(StartPositionDelay);
-        sequence.Append(transform.DOLocalMove(EndPosition, ToEndPositionMoveTime));
-        IsEnd = true;
-        if (ToStartPositionMoveTime == -1f)
-        {
-            return;
-        }
-        sequence.AppendInterval(EndPositionDelay);
-        sequence.Append(transform.DOLocalMove(StartPosition, ToStartPositionMoveTime));
-        IsEnd = false;
-        sequence.SetLoops(Loops);
+        baseSequence?.Kill();
+        baseSequence.OnComplete(PlayReverseAnimation);
+    }
+
+    public virtual void PlayReverseAnimation()
+    {
+        baseSequence?.Kill();
+
+        var sequence = DOTween.Sequence().SetUpdate(UpdateType.Fixed);
+
+        baseSequence = sequence;
     }
 
     protected bool IsPlayer(Collider collider)
@@ -56,31 +52,10 @@ public abstract class AnimatedElement : MonoBehaviour
         AudioManager.Instance.PLaySfx(soundEffect);
     }
 
-    private void ChangeToggle()
-    {
-        isAnimationPlayed = !isAnimationPlayed;
-    }
-
-    public void StartAnimation()
-    {
-        if (isNeedToWaitEnd)
-        {
-            if (isAnimationPlayed) return;
-
-            ChangeToggle();
-            PLayAnimation();
-            ChangeToggle();
-        }
-        else
-        {
-            PLayAnimation();
-        }
-    }
-
     protected IEnumerator PlaySoundWithDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+
         PlaySound();
     }
-
 }

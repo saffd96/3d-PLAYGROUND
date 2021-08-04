@@ -382,17 +382,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b58135ca682a4a418fc5c470d18b018d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartPosition: {x: 0, y: 0, z: 0}
-  EndPosition: {x: 0, y: 0, z: 0}
-  ToStartPointEase: 24
-  ToEndPointEase: 23
-  Loops: 1
-  isNeedToWaitEnd: 0
-  StartPositionDelay: 0
-  EndPositionDelay: 0
-  ToStartPositionMoveTime: 1
-  ToEndPositionMoveTime: 1
+  startPosition: {x: 0, y: 0, z: 0}
+  endPosition: {x: 0, y: -20, z: 0}
+  toStartPointEase: 1
+  toEndPointEase: 1
+  loops: 1
+  startPositionDelay: 1
+  endPositionDelay: 1
+  toStartPositionMoveTime: 2
+  toEndPositionMoveTime: 2
   soundEffect: 6
+  soundDelay: 0
 --- !u!65 &5115387511947291358
 BoxCollider:
   m_ObjectHideFlags: 0
