@@ -26,12 +26,12 @@ public class AnimatedButton : AnimatedElement
     private void OnTriggerEnter(Collider other)
     {
         if (!IsPlayer(other)) return;
-
+        
         isPlayerOnButton = true;
 
         StartCoroutine(PlaySoundWithDelay(soundDelay));
         PlayAnimation();
-
+        
         foreach (var bigBlock in bigBlocks)
         {
             bigBlock.PlayAnimation();
@@ -43,16 +43,18 @@ public class AnimatedButton : AnimatedElement
         if (!IsPlayer(other)) return;
 
         isPlayerOnButton = false;
+        
+        IsBackwardAnimationRequested();
 
         PlayReverseAnimation();
 
-        foreach (var bigBlock in bigBlocks)
-        {
-            if (bigBlock.isUpAnimationComplete)
-            {
-                bigBlock.PlayReverseAnimation();
-            }
-        }
+        // foreach (var bigBlock in bigBlocks)
+        // {
+        //     if (bigBlock.isForwardAnimationCompleted)
+        //     {
+        //         bigBlock.PlayReverseAnimation();
+        //     }
+        // }
     }
 
     public override void PlayAnimation()
@@ -64,6 +66,7 @@ public class AnimatedButton : AnimatedElement
         if (!isPlayerOnButton)
         {
             baseSequence.OnComplete(PlayReverseAnimation);
+            baseSequence.OnComplete(IsBackwardAnimationRequested);
         }
     }
 
@@ -77,5 +80,16 @@ public class AnimatedButton : AnimatedElement
         sequence.Append(transform.DOLocalMove(startPosition, toStartPositionMoveTime));
         sequence.SetLoops(loops);
         baseSequence = sequence;
+    }
+
+    private void IsBackwardAnimationRequested()
+    {
+        foreach (var bigBlock in bigBlocks)
+        {
+            if (bigBlock.isForwardAnimationCompleted)
+            {
+                bigBlock.isBackwardAnimationRequested = true;
+            }
+        }
     }
 }

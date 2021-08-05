@@ -3,12 +3,11 @@ using UnityEngine;
 
 public class BigBlock : AnimatedElement
 {
-    [SerializeField] private AnimatedButton button;
-
     private Vector3 inverseStartPos;
     private Vector3 inverseEndPos;
 
-    internal bool isUpAnimationComplete;
+    internal bool isForwardAnimationCompleted;
+    internal bool isBackwardAnimationRequested;
 
     private void OnValidate()
     {
@@ -29,8 +28,8 @@ public class BigBlock : AnimatedElement
         Sequence sequence = DOTween.Sequence();
         sequence.AppendInterval(startPositionDelay);
         sequence.Append(transform.DOLocalMove(endPosition, toEndPositionMoveTime).SetEase(toEndPointEase));
-        sequence.AppendCallback(IsUpAnimationComplete);
-        sequence.AppendCallback(IsPlayerOnButton);
+        sequence.AppendCallback(IsForwardAnimationComplete);
+        // sequence.AppendCallback(IsPlayerOnButton);
     }
 
     public override void PlayReverseAnimation()
@@ -38,25 +37,29 @@ public class BigBlock : AnimatedElement
         Sequence sequence = DOTween.Sequence();
         sequence.AppendInterval(endPositionDelay);
         sequence.Append(transform.DOLocalMove(startPosition, toStartPositionMoveTime).SetEase(toStartPointEase));
-        sequence.AppendCallback(IsUpAnimationComplete);
         StartCoroutine(PlaySoundWithDelay(endPositionDelay + soundDelay));
         sequence.SetLoops(loops);
     }
 
-    private void IsPlayerOnButton()
+    // private void IsPlayerOnButton()
+    // {
+    //     if (!button.isPlayerOnButton)
+    //     {
+    //         PlayReverseAnimation();
+    //     }
+    //     else
+    //     {
+    //         button.isPlayerOnButton = false;
+    //     }
+    // }
+
+    private void IsForwardAnimationComplete()
     {
-        if (!button.isPlayerOnButton)
+        isForwardAnimationCompleted = true;
+
+        if (isBackwardAnimationRequested)
         {
             PlayReverseAnimation();
         }
-        else
-        {
-            button.isPlayerOnButton = false;
-        }
-    }
-
-    private void IsUpAnimationComplete()
-    {
-        isUpAnimationComplete = !isUpAnimationComplete;
     }
 }
