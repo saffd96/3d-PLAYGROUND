@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager : SingletonMonoBehaviour<AudioManager>
@@ -6,11 +7,17 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
     [SerializeField] private AudioSource sfxSource;
 
     [SerializeField] private AudioSettings audioSettings;
-    
+
     private AudioClip currentClip;
 
+    private readonly List<GameAudioSource> sfxSources = new List<GameAudioSource>();
+
     public float MusicVolume => bgmSource.volume;
-    public float SfxVolume => sfxSource.volume;
+    public float SfxVolume
+    {
+        get => sfxSource.volume;
+        set => sfxSource.volume = value;
+    }
 
     private void Start()
     {
@@ -20,26 +27,45 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
 
     private void Update()
     {
+        PlayMusic(MusicType.Level); //как динамичеcки менять тип музыки? в меню одна на уровне другая и тд.
+    }
+
+    public void PlayMusic(MusicType musicType)
+    {
         if (bgmSource.isPlaying) return;
 
         do
         {
-            currentClip = audioSettings.GetRandomMusic();
+            currentClip = audioSettings.GetRandomMusic(musicType);
         }
+
         while (currentClip == bgmSource.clip);
 
         bgmSource.clip = currentClip;
+
         bgmSource.Play();
     }
 
     public void PLaySfx(SfxType sfxType, Transform transform = null)
     {
         var audioClip = GetAudioClip(sfxType);
+        var audioSource = CreateAudioSource(transform);
 
-        if (audioClip != null)
+        if (audioClip == null) return;
+
+        if (audioSettings.GetSfxInfo(sfxType) != null)
         {
-            sfxSource.PlayOneShot(audioClip);
+            SetupAudioSource(audioSource, audioSettings.GetSfxInfo(sfxType));
         }
+        else
+        {
+            Debug.LogError("ERROR");
+        }
+    }
+
+    private AudioClip GetAudioClip(SfxType sfxType)
+    {
+        return audioSettings.GetAudioClip(sfxType);
     }
 
     public void SetMusicVolume(float volume)
@@ -50,10 +76,16 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
 
     public void SetSfxVolume(float volume)
     {
-        sfxSource.volume = volume;
+        SfxVolume = volume;
+
+        foreach (var gameAudioSource in sfxSources)
+        {
+            gameAudioSource.SetVolume(volume);
+        }
+
         PlayerPrefs.SetFloat(PrefsConstants.SfxPrefsKey, volume);
     }
-    
+
     private void LoadValues()
     {
         var musicValue = PlayerPrefs.GetFloat(PrefsConstants.MusicPrefsKey);
@@ -63,19 +95,26 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
         sfxSource.volume = sfxValue;
     }
 
-    private AudioSource CreateAudioSource(Transform transform)
+    private GameAudioSource CreateAudioSource(Transform transform)
     {
         var transformForAudioSource = transform == null ? this.transform : transform;
-        var audioSource = transformForAudioSource.gameObject.AddComponent<AudioSource>();
+        var audioSource = transformForAudioSource.gameObject
+               .AddComponent<GameAudioSource>()
+               .OnKill(AudioSourceKilled);
 
-        audioSource.loop = false;
-        audioSource.playOnAwake = true;
+        sfxSources.Add(audioSource);
 
         return audioSource;
     }
 
-    private AudioClip GetAudioClip(SfxType sfxType)
+    private void AudioSourceKilled(GameAudioSource gameAudioSource)
     {
-        return audioSettings.GetAudioClip(sfxType);
+        sfxSources.Remove(gameAudioSource);
+    }
+
+    private void SetupAudioSource(GameAudioSource audioSource, SfxInfo sfxInfo)
+    {
+        audioSource.Setup(sfxInfo, SfxVolume);
+        audioSource.PlayOneShot(sfxInfo);
     }
 }

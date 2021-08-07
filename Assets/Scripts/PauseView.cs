@@ -23,7 +23,6 @@ public class PauseView : MonoBehaviour
     private void Start()
     {
         canvasGroup.alpha = 0;
-        gameObject.SetActive(false);
     }
 
     private void Update()

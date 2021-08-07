@@ -14,31 +14,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sfx:
   - name: None
-    Clip: {fileID: 0}
-    SfxType: 0
+    clip: {fileID: 0}
+    sfxType: 0
+    Volume: 1
   - name: Death
-    Clip: {fileID: 8300000, guid: bc378a3e2a491e14b8e83348fcf5c374, type: 3}
-    SfxType: 1
+    clip: {fileID: 8300000, guid: bc378a3e2a491e14b8e83348fcf5c374, type: 3}
+    sfxType: 1
+    Volume: 1
   - name: Jump
-    Clip: {fileID: 8300000, guid: f86be0d1927341949a56ef3fcda705d3, type: 3}
-    SfxType: 2
+    clip: {fileID: 8300000, guid: f86be0d1927341949a56ef3fcda705d3, type: 3}
+    sfxType: 2
+    Volume: 1
   - name: Coin
-    Clip: {fileID: 8300000, guid: 9da95980188d9d043bf771b67185b832, type: 3}
-    SfxType: 3
+    clip: {fileID: 8300000, guid: 9da95980188d9d043bf771b67185b832, type: 3}
+    sfxType: 3
+    Volume: 1
   - name: BigPlatform
-    Clip: {fileID: 8300000, guid: 8d9d9ed13653c1b4f947e71212051af4, type: 3}
-    SfxType: 4
+    clip: {fileID: 8300000, guid: 8d9d9ed13653c1b4f947e71212051af4, type: 3}
+    sfxType: 4
+    Volume: 1
   - name: Button
-    Clip: {fileID: 8300000, guid: 5a1989e85a897b34880a2d6c036f5896, type: 3}
-    SfxType: 5
+    clip: {fileID: 8300000, guid: 5a1989e85a897b34880a2d6c036f5896, type: 3}
+    sfxType: 5
+    Volume: 1
   - name: FallingPlatform
-    Clip: {fileID: 8300000, guid: 9f2ce84309015de459c0973df7af268a, type: 3}
-    SfxType: 6
+    clip: {fileID: 8300000, guid: 9f2ce84309015de459c0973df7af268a, type: 3}
+    sfxType: 6
+    Volume: 1
   musics:
-  - {fileID: 8300000, guid: e8e55044715c385489f25922e026b9b9, type: 3}
-  - {fileID: 8300000, guid: cc20f8bf430ebd949806311101240b89, type: 3}
-  - {fileID: 8300000, guid: fe542f12fb6e7de408f5e1c0fafc8372, type: 3}
-  - {fileID: 8300000, guid: c045f2615f8411a4c9d6f625320fa0c3, type: 3}
-  - {fileID: 8300000, guid: a34e58c33c155be43baad91800975518, type: 3}
-  - {fileID: 8300000, guid: 9d787aa688eeb02489140df6b80cb36d, type: 3}
-  - {fileID: 8300000, guid: d367b97b128b7bc4a9ebd6a0ab0ae013, type: 3}
+  - name: None
+    clips: []
+    musicType: 0
+  - name: Menu
+    clips:
+    - {fileID: 8300000, guid: d367b97b128b7bc4a9ebd6a0ab0ae013, type: 3}
+    - {fileID: 8300000, guid: a34e58c33c155be43baad91800975518, type: 3}
+    - {fileID: 8300000, guid: fe542f12fb6e7de408f5e1c0fafc8372, type: 3}
+    musicType: 1
+  - name: Level
+    clips:
+    - {fileID: 8300000, guid: cc20f8bf430ebd949806311101240b89, type: 3}
+    - {fileID: 8300000, guid: c045f2615f8411a4c9d6f625320fa0c3, type: 3}
+    - {fileID: 8300000, guid: 9d787aa688eeb02489140df6b80cb36d, type: 3}
+    - {fileID: 8300000, guid: e8e55044715c385489f25922e026b9b9, type: 3}
+    musicType: 2

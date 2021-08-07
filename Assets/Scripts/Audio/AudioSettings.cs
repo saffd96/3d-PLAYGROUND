@@ -1,40 +1,31 @@
 using UnityEngine;
-using System;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
 [CreateAssetMenu(fileName = nameof(AudioSettings), menuName = "Audio/AudioSettings")]
 public class AudioSettings : ScriptableObject
 {
-    [Serializable]
-    private class SfxInfo
-    {
-        [HideInInspector]
-        [SerializeField] private string name;
-
-        public AudioClip Clip;
-        public SfxType SfxType;
-
-        public void OnValidate()
-        {
-            name = SfxType.ToString();
-        }
-    }
-
     private const string Tag = nameof(AudioSettings);
 
     [SerializeField] private SfxInfo[] sfx;
-
-    [SerializeField] private AudioClip[] musics;
-
     private readonly Dictionary<SfxType, SfxInfo> sfxMap = new Dictionary<SfxType, SfxInfo>();
+
+    [SerializeField] private MusicInfo[] musics;
+    private readonly Dictionary<MusicType, MusicInfo> musicMap = new Dictionary<MusicType, MusicInfo>();
 
     private void OnEnable()
     {
-        FillMap();
+        FillSfxMap();
+        FillMusicMap();
     }
 
     private void OnValidate()
+    {
+        SfxValidate();
+        MusicValidate();
+    }
+
+    private void SfxValidate()
     {
         if (sfx == null) return;
 
@@ -44,17 +35,34 @@ public class AudioSettings : ScriptableObject
         }
     }
 
-    public AudioClip GetAudioClip(SfxType sfxType)
+    private void MusicValidate()
     {
-        return sfxMap.ContainsKey(sfxType) ? sfxMap[sfxType].Clip : null;
-    }
-    
-    public AudioClip GetRandomMusic()
-    {
-        return musics[Random.Range(0, musics.Length)];
+        if (musics == null) return;
+
+        foreach (var musicInfo in musics)
+        {
+            musicInfo.OnValidate();
+        }
     }
 
-    private void FillMap()
+    public AudioClip GetAudioClip(SfxType sfxType)
+    {
+        return sfxMap.ContainsKey(sfxType) ? sfxMap[sfxType].clip : null;
+    }
+
+    public SfxInfo GetSfxInfo(SfxType sfxType)
+    {
+        return sfxMap.ContainsKey(sfxType) ? sfxMap[sfxType] : null;
+    }
+
+    public AudioClip GetRandomMusic(MusicType musicsType)
+    {
+        return musicMap.ContainsKey(musicsType)
+                ? musicMap[musicsType].clips[Random.Range(0, musicMap[musicsType].clips.Length)]
+                : null;
+    }
+
+    private void FillSfxMap()
     {
         sfxMap.Clear();
 
@@ -62,7 +70,7 @@ public class AudioSettings : ScriptableObject
 
         foreach (var sfxInfo in sfx)
         {
-            var type = sfxInfo.SfxType;
+            var type = sfxInfo.sfxType;
 
             if (!sfxMap.ContainsKey(type))
             {
@@ -70,7 +78,28 @@ public class AudioSettings : ScriptableObject
             }
             else
             {
-                Debug.LogError($"{Tag}, {nameof(FillMap)}: Cannot be more than 1 clip for type '{type}'!");
+                Debug.LogError($"{Tag}, {nameof(FillSfxMap)}: Cannot be more than 1 clip for type '{type}'!");
+            }
+        }
+    }
+
+    private void FillMusicMap()
+    {
+        musicMap.Clear();
+
+        if (musics == null) return;
+
+        foreach (var musicInfo in musics)
+        {
+            var type = musicInfo.musicType;
+
+            if (!musicMap.ContainsKey(type))
+            {
+                musicMap.Add(type, musicInfo);
+            }
+            else
+            {
+                Debug.LogError($"{Tag}, {nameof(FillMusicMap)}: Cannot be more than 1 clip for type '{type}'!");
             }
         }
     }

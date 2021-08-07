@@ -5,7 +5,8 @@ public class BigBlock : AnimatedElement
 {
     private Vector3 inverseStartPos;
     private Vector3 inverseEndPos;
-
+    private Tween tweener;
+    
     internal bool isForwardAnimationCompleted;
     internal bool isBackwardAnimationRequested;
 
@@ -25,33 +26,28 @@ public class BigBlock : AnimatedElement
 
     public override void PlayAnimation()
     {
+        isForwardAnimationCompleted = false;
+        isBackwardAnimationRequested = false;
+
+        tweener?.Kill();
+        
         Sequence sequence = DOTween.Sequence();
         sequence.AppendInterval(startPositionDelay);
         sequence.Append(transform.DOLocalMove(endPosition, toEndPositionMoveTime).SetEase(toEndPointEase));
         sequence.AppendCallback(IsForwardAnimationComplete);
-        // sequence.AppendCallback(IsPlayerOnButton);
+
+        tweener = sequence;
     }
 
     public override void PlayReverseAnimation()
     {
-        Sequence sequence = DOTween.Sequence();
-        sequence.AppendInterval(endPositionDelay);
-        sequence.Append(transform.DOLocalMove(startPosition, toStartPositionMoveTime).SetEase(toStartPointEase));
-        StartCoroutine(PlaySoundWithDelay(endPositionDelay + soundDelay));
-        sequence.SetLoops(loops);
-    }
+        isBackwardAnimationRequested = true;
 
-    // private void IsPlayerOnButton()
-    // {
-    //     if (!button.isPlayerOnButton)
-    //     {
-    //         PlayReverseAnimation();
-    //     }
-    //     else
-    //     {
-    //         button.isPlayerOnButton = false;
-    //     }
-    // }
+        if (isForwardAnimationCompleted)
+        {
+            PlayBackWardAnimationInternal();
+        }
+    }
 
     private void IsForwardAnimationComplete()
     {
@@ -59,7 +55,21 @@ public class BigBlock : AnimatedElement
 
         if (isBackwardAnimationRequested)
         {
-            PlayReverseAnimation();
+            PlayBackWardAnimationInternal();
         }
+    }
+
+    private void PlayBackWardAnimationInternal()
+    {
+        tweener?.Kill();
+        
+        Sequence sequence = DOTween.Sequence();
+        sequence.AppendInterval(endPositionDelay);
+        sequence.Append(transform.DOLocalMove(startPosition, toStartPositionMoveTime).SetEase(toStartPointEase));
+        sequence.SetLoops(loops);
+        tweener = sequence;
+        
+        StartCoroutine(PlaySoundWithDelay(endPositionDelay + soundDelay));
+
     }
 }

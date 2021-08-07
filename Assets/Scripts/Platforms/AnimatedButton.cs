@@ -7,7 +7,7 @@ public class AnimatedButton : AnimatedElement
 
     private Vector3 inverseStartPos;
     private Vector3 inverseEndPos;
-    internal bool isPlayerOnButton;
+    private bool isPlayerOnButton;
 
     private void OnValidate()
     {
@@ -48,13 +48,10 @@ public class AnimatedButton : AnimatedElement
 
         PlayReverseAnimation();
 
-        // foreach (var bigBlock in bigBlocks)
-        // {
-        //     if (bigBlock.isForwardAnimationCompleted)
-        //     {
-        //         bigBlock.PlayReverseAnimation();
-        //     }
-        // }
+        foreach (var bigBlock in bigBlocks)
+        {
+            bigBlock.PlayReverseAnimation();
+        }
     }
 
     public override void PlayAnimation()

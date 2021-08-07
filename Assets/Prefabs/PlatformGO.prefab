@@ -9,10 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7003744831325581240}
+  - component: {fileID: 7245122139209483818}
+  - component: {fileID: 4124732454778220659}
   m_Layer: 0
   m_Name: PlatformGO
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -23,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7003744831325581243}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -6.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -31,6 +33,42 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7245122139209483818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7003744831325581243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e6300a226a426bb762c27fc5d85528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startPosition: {x: 0, y: 0, z: -6.5}
+  endPosition: {x: 0, y: -0.1, z: -6.5}
+  toStartPointEase: 1
+  toEndPointEase: 1
+  loops: 1
+  startPositionDelay: 0
+  endPositionDelay: 0
+  toStartPositionMoveTime: 0.1
+  toEndPositionMoveTime: 0.1
+  soundEffect: 0
+  soundDelay: 0
+--- !u!65 &4124732454778220659
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7003744831325581243}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3, y: 0.5, z: 3}
+  m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!1 &7003744832718362207
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,7 +81,7 @@ GameObject:
   - component: {fileID: 7003744832718362192}
   - component: {fileID: 7003744832718362195}
   - component: {fileID: 7003744832718362194}
-  - component: {fileID: 7003744832718362205}
+  - component: {fileID: 1648077850439481366}
   m_Layer: 0
   m_Name: PlatformMesh
   m_TagString: Untagged
@@ -354,7 +392,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7003744832718362207}
   m_Mesh: {fileID: 0}
---- !u!64 &7003744832718362205
+--- !u!64 &1648077850439481366
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
