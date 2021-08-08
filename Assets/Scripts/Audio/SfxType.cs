@@ -7,4 +7,5 @@ public enum SfxType
     BigPlatform = 4,
     Button = 5,
     FallingPlatform = 6,
+    Shoot = 7
 }

@@ -71,7 +71,7 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
     public void SetMusicVolume(float volume)
     {
         bgmSource.volume = volume;
-        PlayerPrefs.SetFloat(PrefsConstants.MusicPrefsKey, volume);
+        PlayerPrefs.SetFloat(MusicConstants.MusicPrefsKey, volume);
     }
 
     public void SetSfxVolume(float volume)
@@ -83,15 +83,15 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
             gameAudioSource.SetVolume(volume);
         }
 
-        PlayerPrefs.SetFloat(PrefsConstants.SfxPrefsKey, volume);
+        PlayerPrefs.SetFloat(MusicConstants.SfxPrefsKey, volume);
     }
 
     private void LoadValues()
     {
-        var musicValue = PlayerPrefs.GetFloat(PrefsConstants.MusicPrefsKey);
+        var musicValue = PlayerPrefs.GetFloat(MusicConstants.MusicPrefsKey);
         bgmSource.volume = musicValue;
 
-        var sfxValue = PlayerPrefs.GetFloat(PrefsConstants.SfxPrefsKey);
+        var sfxValue = PlayerPrefs.GetFloat(MusicConstants.SfxPrefsKey);
         sfxSource.volume = sfxValue;
     }
 

@@ -41,6 +41,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 9f2ce84309015de459c0973df7af268a, type: 3}
     sfxType: 6
     Volume: 1
+  - name: Shoot
+    clip: {fileID: 8300000, guid: acd0f96a912731247a7acf4cf0d84338, type: 3}
+    sfxType: 7
+    Volume: 1
   musics:
   - name: None
     clips: []
